@@ -38,7 +38,7 @@ Add to your trunk-recorder `config.json` in the `"plugins"` array:
 
 | Parameter | Default | Description |
 |-----------|---------|-------------|
-| `tone_pairs` | `[]` | Array of tone pair objects to detect. Each has `name` (optional), `tone_a` (Hz), and `tone_b` (Hz). If `tone_pairs` is empty or omitted, the plugin will still detect any two sequential tones from any configured pair's individual frequencies. |
+| `tone_pairs` | `[]` | Array of tone pair objects to detect. Each has `name` (optional), `tone_a` (Hz), and `tone_b` (Hz). **Required** — if `tone_pairs` is empty or omitted, the plugin has no target frequencies and will not perform any detection. |
 | `detection_threshold_db` | `-20.0` | Minimum Goertzel energy (in dB) for a tone to be considered detected. Lower values are more sensitive but may increase false positives. |
 | `min_tone_duration_ms` | `500` | Minimum time (ms) a tone must be sustained before it counts as detected. Standard two-tone pages use ~1000 ms per tone; 500 ms provides margin. |
 | `max_gap_ms` | `150` | Maximum silence (ms) allowed between Tone A ending and Tone B starting. |

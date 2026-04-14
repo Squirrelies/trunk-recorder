@@ -195,14 +195,22 @@ int Two_Tone_Detector::call_end(Call_Data_t call_info) {
 
     // Optionally run a script on detection.
     if (!config_.match_script.empty()) {
+      // Sanitize matched_name: only allow alphanumeric, spaces, hyphens, underscores.
+      std::string safe_name;
+      for (char c : result.matched_name) {
+        if (std::isalnum(static_cast<unsigned char>(c)) || c == ' ' || c == '-' || c == '_') {
+          safe_name += c;
+        }
+      }
+
       std::ostringstream cmd;
       cmd << config_.match_script
           << " " << call_info.call_num
           << " " << call_info.talkgroup
           << " " << result.tone_a_freq
           << " " << result.tone_b_freq;
-      if (!result.matched_name.empty()) {
-        cmd << " \"" << result.matched_name << "\"";
+      if (!safe_name.empty()) {
+        cmd << " \"" << safe_name << "\"";
       }
       cmd << " &";
       int rc __attribute__((unused)) = std::system(cmd.str().c_str());
